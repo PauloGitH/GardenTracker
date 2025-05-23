@@ -1,0 +1,78 @@
+{
+  "gardenName": "My Beautiful Garden",
+  "dimensions": {
+    "width": 800,
+    "height": 600
+  },
+  "lastUpdated": "2025-06-15T10:30:00Z",
+  "plants": [
+    {
+      "id": "plant-1",
+      "name": "Japanese Maple",
+      "species": "Acer palmatum",
+      "type": "tree",
+      "position": {
+        "x": 120,
+        "y": 150
+      },
+      "plantedDate": "2024-03-15",
+      "lastWatered": "2025-06-14",
+      "lastFertilized": "2025-05-20",
+      "notes": "Beautiful red foliage in fall",
+      "healthStatus": "excellent",
+      "seasonality": ["spring", "summer", "fall"],
+      "image": "https://images.pexels.com/photos/1295138/pexels-photo-1295138.jpeg"
+    },
+    {
+      "id": "plant-2",
+      "name": "Lavender Bush",
+      "species": "Lavandula angustifolia",
+      "type": "herb",
+      "position": {
+        "x": 300,
+        "y": 400
+      },
+      "plantedDate": "2024-04-10",
+      "lastWatered": "2025-06-13",
+      "lastFertilized": "2025-05-15",
+      "notes": "Fragrant flowers, attracts bees",
+      "healthStatus": "good",
+      "seasonality": ["spring", "summer"],
+      "image": "https://images.pexels.com/photos/4911753/pexels-photo-4911753.jpeg"
+    },
+    {
+      "id": "plant-3",
+      "name": "Rose Bush",
+      "species": "Rosa 'Double Delight'",
+      "type": "flower",
+      "position": {
+        "x": 450,
+        "y": 200
+      },
+      "plantedDate": "2024-03-20",
+      "lastWatered": "2025-06-14",
+      "lastFertilized": "2025-06-01",
+      "notes": "Bicolor blooms, prune in early spring",
+      "healthStatus": "good",
+      "seasonality": ["spring", "summer", "fall"],
+      "image": "https://images.pexels.com/photos/133472/pexels-photo-133472.jpeg"
+    },
+    {
+      "id": "plant-4",
+      "name": "Tomato Plant",
+      "species": "Solanum lycopersicum",
+      "type": "vegetable",
+      "position": {
+        "x": 600,
+        "y": 350
+      },
+      "plantedDate": "2025-05-01",
+      "lastWatered": "2025-06-15",
+      "lastFertilized": "2025-06-10",
+      "notes": "Cherry variety, needs regular watering",
+      "healthStatus": "excellent",
+      "seasonality": ["summer", "fall"],
+      "image": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg"
+    }
+  ]
+}
