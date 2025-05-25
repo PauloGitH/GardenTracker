@@ -1,0 +1,72 @@
+{
+  "plants": [
+    {
+      "id": "tree-001",
+      "name": "Japanese Maple",
+      "scientificName": "Acer palmatum",
+      "type": "tree",
+      "description": "A small, deciduous tree with a dome-shaped crown and beautiful palmate leaves that turn vibrant red in autumn.",
+      "imageUrl": "https://images.pexels.com/photos/827058/pexels-photo-827058.jpeg",
+      "position": {
+        "lat": 51.505,
+        "lng": -0.09
+      },
+      "plantedDate": "2022-04-15",
+      "wateringFrequency": 7,
+      "sunlight": "partial-shade",
+      "soilType": "loamy",
+      "height": 450,
+      "spread": 400,
+      "seasonalInfo": {
+        "bloomingSeason": ["spring"],
+        "dormantSeason": ["winter"]
+      },
+      "notes": "Needs protection from strong winds and afternoon sun."
+    },
+    {
+      "id": "flower-001",
+      "name": "Lavender",
+      "scientificName": "Lavandula",
+      "type": "flower",
+      "description": "An aromatic perennial plant known for its beautiful purple flowers and calming scent.",
+      "imageUrl": "https://images.pexels.com/photos/46190/field-lavender-blossom-bloom-46190.jpeg",
+      "position": {
+        "lat": 51.506,
+        "lng": -0.092
+      },
+      "plantedDate": "2023-03-10",
+      "wateringFrequency": 14,
+      "sunlight": "full-sun",
+      "soilType": "sandy",
+      "height": 60,
+      "spread": 45,
+      "seasonalInfo": {
+        "bloomingSeason": ["summer"]
+      },
+      "notes": "Trim after flowering to maintain shape and promote new growth."
+    },
+    {
+      "id": "vegetable-001",
+      "name": "Tomato",
+      "scientificName": "Solanum lycopersicum",
+      "type": "vegetable",
+      "description": "An annual plant in the nightshade family, grown for its edible fruits.",
+      "imageUrl": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg",
+      "position": {
+        "lat": 51.5065,
+        "lng": -0.095
+      },
+      "plantedDate": "2023-05-20",
+      "wateringFrequency": 3,
+      "sunlight": "full-sun",
+      "soilType": "loamy",
+      "height": 150,
+      "spread": 60,
+      "seasonalInfo": {
+        "bloomingSeason": ["spring", "summer"],
+        "harvestSeason": ["summer", "fall"]
+      },
+      "notes": "Stake plants and prune suckers for better air circulation."
+    }
+  ]
+}
