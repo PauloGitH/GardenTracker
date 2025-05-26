@@ -17,8 +17,11 @@ function App() {
   const [filterPanelOpen, setFilterPanelOpen] = useState(false);
 
   useEffect(() => {
-    const initialPlants = getAllPlants();
-    setPlants(initialPlants);
+    const loadPlants = async () => {
+      const initialPlants = await getAllPlants();
+      setPlants(initialPlants);
+    };
+    loadPlants();
   }, []);
 
   const handleSelectPlant = (plant: Plant) => {
@@ -39,11 +42,11 @@ function App() {
     setEditingPlant(null);
   };
 
-  const handleMovePlant = (id: string, newPosition: { lat: number; lng: number }) => {
+  const handleMovePlant = async (id: string, newPosition: { lat: number; lng: number }) => {
     const plantToUpdate = plants.find(p => p.id === id);
     if (plantToUpdate) {
       const updatedPlant = { ...plantToUpdate, position: newPosition };
-      const updatedPlants = updatePlant(updatedPlant);
+      const updatedPlants = await updatePlant(updatedPlant);
       setPlants(updatedPlants);
       if (selectedPlant?.id === id) {
         setSelectedPlant(updatedPlant);
@@ -51,12 +54,12 @@ function App() {
     }
   };
 
-  const handleSavePlant = (plant: Plant) => {
+  const handleSavePlant = async (plant: Plant) => {
     if (editingPlant) {
-      const updatedPlants = updatePlant(plant);
+      const updatedPlants = await updatePlant(plant);
       setPlants(updatedPlants);
     } else {
-      const updatedPlants = addPlant(plant);
+      const updatedPlants = await addPlant(plant);
       setPlants(updatedPlants);
     }
     setEditingPlant(null);
@@ -64,8 +67,8 @@ function App() {
     setSelectedPlant(plant);
   };
 
-  const handleDeletePlant = (id: string) => {
-    const updatedPlants = deletePlant(id);
+  const handleDeletePlant = async (id: string) => {
+    const updatedPlants = await deletePlant(id);
     setPlants(updatedPlants);
     setSelectedPlant(null);
   };
