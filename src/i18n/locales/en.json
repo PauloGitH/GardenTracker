@@ -1,0 +1,54 @@
+{
+  "app": {
+    "title": "Garden Mapper",
+    "editMode": "Edit Mode",
+    "viewMode": "View Mode",
+    "plants": "Plants",
+    "closeFilters": "Close Filters",
+    "mapInstructions": "Click on the map to add a new plant or drag existing markers to move them"
+  },
+  "plant": {
+    "name": "Name",
+    "scientificName": "Scientific Name",
+    "type": "Type",
+    "description": "Description",
+    "imageUrl": "Image URL",
+    "plantedDate": "Planted Date",
+    "wateringFrequency": "Watering Frequency",
+    "wateringDays": "Every {{days}} days",
+    "sunlight": "Sunlight",
+    "soilType": "Soil Type",
+    "height": "Height",
+    "spread": "Spread",
+    "notes": "Notes",
+    "dimensions": "{{height}}cm × {{spread}}cm",
+    "planted": "Planted: {{date}}"
+  },
+  "seasons": {
+    "title": "Seasonal Information",
+    "blooming": "Blooming Seasons",
+    "harvest": "Harvest Seasons",
+    "dormant": "Dormant Seasons",
+    "spring": "Spring",
+    "summer": "Summer",
+    "fall": "Fall",
+    "winter": "Winter"
+  },
+  "actions": {
+    "add": "Add Plant",
+    "edit": "Edit Plant",
+    "delete": "Delete Plant",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "search": "Search plants..."
+  },
+  "filters": {
+    "title": "Filter by Type",
+    "all": "All",
+    "noResults": "No plants found matching your criteria."
+  },
+  "confirm": {
+    "delete": "Are you sure you want to delete {{name}}?"
+  }
+}

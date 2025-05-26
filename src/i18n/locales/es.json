@@ -1,0 +1,54 @@
+{
+  "app": {
+    "title": "Mapeador de Jardín",
+    "editMode": "Modo Edición",
+    "viewMode": "Modo Vista",
+    "plants": "Plantas",
+    "closeFilters": "Cerrar Filtros",
+    "mapInstructions": "Haz clic en el mapa para añadir una nueva planta o arrastra los marcadores existentes para moverlos"
+  },
+  "plant": {
+    "name": "Nombre",
+    "scientificName": "Nombre Científico",
+    "type": "Tipo",
+    "description": "Descripción",
+    "imageUrl": "URL de Imagen",
+    "plantedDate": "Fecha de Plantación",
+    "wateringFrequency": "Frecuencia de Riego",
+    "wateringDays": "Cada {{days}} días",
+    "sunlight": "Luz Solar",
+    "soilType": "Tipo de Suelo",
+    "height": "Altura",
+    "spread": "Extensión",
+    "notes": "Notas",
+    "dimensions": "{{height}}cm × {{spread}}cm",
+    "planted": "Plantado: {{date}}"
+  },
+  "seasons": {
+    "title": "Información Estacional",
+    "blooming": "Temporadas de Floración",
+    "harvest": "Temporadas de Cosecha",
+    "dormant": "Temporadas de Dormancia",
+    "spring": "Primavera",
+    "summer": "Verano",
+    "fall": "Otoño",
+    "winter": "Invierno"
+  },
+  "actions": {
+    "add": "Añadir Planta",
+    "edit": "Editar Planta",
+    "delete": "Eliminar Planta",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "search": "Buscar plantas..."
+  },
+  "filters": {
+    "title": "Filtrar por Tipo",
+    "all": "Todas",
+    "noResults": "No se encontraron plantas que coincidan con los criterios."
+  },
+  "confirm": {
+    "delete": "¿Estás seguro de que quieres eliminar {{name}}?"
+  }
+}
