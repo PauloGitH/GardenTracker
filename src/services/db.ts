@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { Plant } from '../types';
 
-const db = new sqlite3.Database(':memory:', (err) => {
+const db = new sqlite3.Database('./garden.db', (err) => {
   if (err) {
     console.error('Error opening database:', err);
   } else {
@@ -30,7 +30,29 @@ function initializeDatabase() {
       notes TEXT,
       seasonalInfo TEXT
     )
-  `);
+  `, (err) => {
+    if (err) {
+      console.error('Error creating table:', err);
+      return;
+    }
+
+    // Check if the table is empty before initializing with sample data
+    db.get('SELECT COUNT(*) as count FROM plants', (err, row) => {
+      if (err) {
+        console.error('Error checking table:', err);
+        return;
+      }
+
+      if (row.count === 0) {
+        // Initialize with sample data only if the table is empty
+        import('../data/plants.json').then(plantsData => {
+          plantsData.plants.forEach(plant => {
+            addPlant(plant).catch(console.error);
+          });
+        });
+      }
+    });
+  });
 }
 
 export const getAllPlants = (): Promise<Plant[]> => {
@@ -157,9 +179,3 @@ export const deletePlant = (id: string): Promise<void> => {
     });
   });
 };
-
-// Initialize with sample data
-import plantsData from '../data/plants.json';
-plantsData.plants.forEach(plant => {
-  addPlant(plant).catch(console.error);
-});
