@@ -1,17 +1,12 @@
-import sqlite3 from 'sqlite3';
+import { createClient } from '@libsql/client';
 import { Plant } from '../types';
 
-const db = new sqlite3.Database('./garden.db', (err) => {
-  if (err) {
-    console.error('Error opening database:', err);
-  } else {
-    console.log('Connected to SQLite database');
-    initializeDatabase();
-  }
+const client = createClient({
+  url: 'file:garden.db',
 });
 
-function initializeDatabase() {
-  db.run(`
+async function initializeDatabase() {
+  await client.execute(`
     CREATE TABLE IF NOT EXISTS plants (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
@@ -30,152 +25,115 @@ function initializeDatabase() {
       notes TEXT,
       seasonalInfo TEXT
     )
-  `, (err) => {
-    if (err) {
-      console.error('Error creating table:', err);
-      return;
+  `);
+
+  // Check if the table is empty before initializing with sample data
+  const result = await client.execute('SELECT COUNT(*) as count FROM plants');
+  const count = result.rows[0].count;
+
+  if (count === 0) {
+    // Initialize with sample data only if the table is empty
+    const plantsData = await import('../data/plants.json');
+    for (const plant of plantsData.plants) {
+      await addPlant(plant);
     }
-
-    // Check if the table is empty before initializing with sample data
-    db.get('SELECT COUNT(*) as count FROM plants', (err, row) => {
-      if (err) {
-        console.error('Error checking table:', err);
-        return;
-      }
-
-      if (row.count === 0) {
-        // Initialize with sample data only if the table is empty
-        import('../data/plants.json').then(plantsData => {
-          plantsData.plants.forEach(plant => {
-            addPlant(plant).catch(console.error);
-          });
-        });
-      }
-    });
-  });
+  }
 }
 
-export const getAllPlants = (): Promise<Plant[]> => {
-  return new Promise((resolve, reject) => {
-    db.all('SELECT * FROM plants', (err, rows) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      
-      const plants: Plant[] = rows.map(row => ({
-        id: row.id,
-        name: row.name,
-        scientificName: row.scientificName,
-        type: row.type,
-        description: row.description,
-        imageUrl: row.imageUrl,
-        position: {
-          lat: row.latitude,
-          lng: row.longitude
-        },
-        plantedDate: row.plantedDate,
-        wateringFrequency: row.wateringFrequency,
-        sunlight: row.sunlight,
-        soilType: row.soilType,
-        height: row.height,
-        spread: row.spread,
-        seasonalInfo: JSON.parse(row.seasonalInfo || '{}'),
-        notes: row.notes
-      }));
-      
-      resolve(plants);
-    });
+export const getAllPlants = async (): Promise<Plant[]> => {
+  const result = await client.execute('SELECT * FROM plants');
+  
+  return result.rows.map(row => ({
+    id: row.id as string,
+    name: row.name as string,
+    scientificName: row.scientificName as string,
+    type: row.type as string,
+    description: row.description as string,
+    imageUrl: row.imageUrl as string,
+    position: {
+      lat: row.latitude as number,
+      lng: row.longitude as number
+    },
+    plantedDate: row.plantedDate as string,
+    wateringFrequency: row.wateringFrequency as number,
+    sunlight: row.sunlight as string,
+    soilType: row.soilType as string,
+    height: row.height as number,
+    spread: row.spread as number,
+    seasonalInfo: JSON.parse(row.seasonalInfo as string || '{}'),
+    notes: row.notes as string
+  }));
+};
+
+export const addPlant = async (plant: Plant): Promise<void> => {
+  const { position, seasonalInfo, ...rest } = plant;
+  
+  await client.execute({
+    sql: `INSERT INTO plants (
+      id, name, scientificName, type, description, imageUrl,
+      latitude, longitude, plantedDate, wateringFrequency,
+      sunlight, soilType, height, spread, notes, seasonalInfo
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    args: [
+      plant.id,
+      rest.name,
+      rest.scientificName,
+      rest.type,
+      rest.description,
+      rest.imageUrl,
+      position.lat,
+      position.lng,
+      rest.plantedDate,
+      rest.wateringFrequency,
+      rest.sunlight,
+      rest.soilType,
+      rest.height,
+      rest.spread,
+      rest.notes,
+      JSON.stringify(seasonalInfo)
+    ]
   });
 };
 
-export const addPlant = (plant: Plant): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    const { position, seasonalInfo, ...rest } = plant;
-    
-    db.run(
-      `INSERT INTO plants (
-        id, name, scientificName, type, description, imageUrl,
-        latitude, longitude, plantedDate, wateringFrequency,
-        sunlight, soilType, height, spread, notes, seasonalInfo
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        plant.id,
-        rest.name,
-        rest.scientificName,
-        rest.type,
-        rest.description,
-        rest.imageUrl,
-        position.lat,
-        position.lng,
-        rest.plantedDate,
-        rest.wateringFrequency,
-        rest.sunlight,
-        rest.soilType,
-        rest.height,
-        rest.spread,
-        rest.notes,
-        JSON.stringify(seasonalInfo)
-      ],
-      (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      }
-    );
+export const updatePlant = async (plant: Plant): Promise<void> => {
+  const { position, seasonalInfo, ...rest } = plant;
+  
+  await client.execute({
+    sql: `UPDATE plants SET
+      name = ?, scientificName = ?, type = ?, description = ?,
+      imageUrl = ?, latitude = ?, longitude = ?, plantedDate = ?,
+      wateringFrequency = ?, sunlight = ?, soilType = ?,
+      height = ?, spread = ?, notes = ?, seasonalInfo = ?
+    WHERE id = ?`,
+    args: [
+      rest.name,
+      rest.scientificName,
+      rest.type,
+      rest.description,
+      rest.imageUrl,
+      position.lat,
+      position.lng,
+      rest.plantedDate,
+      rest.wateringFrequency,
+      rest.sunlight,
+      rest.soilType,
+      rest.height,
+      rest.spread,
+      rest.notes,
+      JSON.stringify(seasonalInfo),
+      plant.id
+    ]
   });
 };
 
-export const updatePlant = (plant: Plant): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    const { position, seasonalInfo, ...rest } = plant;
-    
-    db.run(
-      `UPDATE plants SET
-        name = ?, scientificName = ?, type = ?, description = ?,
-        imageUrl = ?, latitude = ?, longitude = ?, plantedDate = ?,
-        wateringFrequency = ?, sunlight = ?, soilType = ?,
-        height = ?, spread = ?, notes = ?, seasonalInfo = ?
-      WHERE id = ?`,
-      [
-        rest.name,
-        rest.scientificName,
-        rest.type,
-        rest.description,
-        rest.imageUrl,
-        position.lat,
-        position.lng,
-        rest.plantedDate,
-        rest.wateringFrequency,
-        rest.sunlight,
-        rest.soilType,
-        rest.height,
-        rest.spread,
-        rest.notes,
-        JSON.stringify(seasonalInfo),
-        plant.id
-      ],
-      (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      }
-    );
+export const deletePlant = async (id: string): Promise<void> => {
+  await client.execute({
+    sql: 'DELETE FROM plants WHERE id = ?',
+    args: [id]
   });
 };
 
-export const deletePlant = (id: string): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    db.run('DELETE FROM plants WHERE id = ?', [id], (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
-};
+// Initialize the database
+initializeDatabase().catch(console.error);
+
+export default client;
