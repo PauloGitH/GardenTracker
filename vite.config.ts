@@ -1,10 +1,14 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import type { Config } from 'vite';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
+export default defineConfig((config: Config) => ({
+  ...config,
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    exclude: ['mysql2'],
   },
-});
+  typescript: {
+    typeCheck: {
+      excludeFiles: '**/*.test.ts',
+    },
+  },
+}));

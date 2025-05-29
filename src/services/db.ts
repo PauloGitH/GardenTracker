@@ -9,7 +9,8 @@ const pool = new Pool({
   port: 3306,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  //socketPath: '/tmp/mysql.sock' //ajout pour évier les erreurs
 });
 
 async function initializeDatabase() {

@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - "5173:5173"
+      - "8181:5173"
     environment:
       - DB_URL=mariadb://garden_user:garden_password@db:3306/garden?serverVersion=5.5.0
     volumes:
