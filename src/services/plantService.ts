@@ -6,16 +6,13 @@ export const getAllPlants = async (): Promise<Plant[]> => {
 };
 
 export const addPlant = async (plant: Plant): Promise<Plant[]> => {
-  await dbAddPlant(plant);
-  return await dbGetAllPlants();
+  return await dbAddPlant(plant);
 };
 
 export const updatePlant = async (plant: Plant): Promise<Plant[]> => {
-  await dbUpdatePlant(plant);
-  return await dbGetAllPlants();
+  return await dbUpdatePlant(plant);
 };
 
 export const deletePlant = async (id: string): Promise<Plant[]> => {
-  await dbDeletePlant(id);
-  return await dbGetAllPlants();
+  return await dbDeletePlant(id);
 };

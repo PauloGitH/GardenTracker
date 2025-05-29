@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "5173:5173"
+    environment:
+      - DB_URL=mariadb://garden_user:garden_password@db:3306/garden?serverVersion=5.5.0
+    volumes:
+      - .:/app
+    command: npm run dev
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.11
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: garden
+      MYSQL_USER: garden_user
+      MYSQL_PASSWORD: garden_password
+    volumes:
+      - garden-db:/var/lib/mysql
+
+volumes:
+  garden-db:
