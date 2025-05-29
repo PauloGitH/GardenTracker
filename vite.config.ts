@@ -11,4 +11,14 @@ export default defineConfig((config: Config) => ({
       excludeFiles: '**/*.test.ts',
     },
   },
+  server: {
+    env: {
+      DATABASE_URL: 'mysql://root:password@localhost:3306/garden_tracker'
+    }
+  },
+  preview: {
+    env: {
+      DATABASE_URL: 'mysql://root:password@localhost:3306/garden_tracker'
+    }
+  }
 }));
